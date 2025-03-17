@@ -1,95 +1,120 @@
 # ProjectR
 
-Bu proje, bir R projesidir.
+Bu proje, Spotify API'si ile etkileşim kurmak için oluşturulmuş bir R projesidir. Belirli sanatçıları arama ve popüler şarkılarını alma gibi işlevleri içerir.
 
 ## İçindekiler
 
-1.  [Proje Açıklaması](#proje-açıklaması)
-2.  [Lisans](#lisans)
-3.  [Katkıda Bulunma](#katkıda-bulunma)
-4.  [.gitignore Dosyası Açıklaması](#gitignore-dosyası-açıklaması)
+1.  [Açıklama](#açıklama)
+2.  [Kurulum](#kurulum)
+3.  [Kullanım](#kullanım)
+4.  [Bağımlılıklar](#bağımlılıklar)
+5.  [Katkıda Bulunma](#katkıda-bulunma)
+6.  [Lisans](#lisans)
+7.  [Dosya Açıklamaları](#dosya-açıklamaları)
+8.  [API Referansı](#api-referansı)
 
-## Proje Açıklaması
+## Açıklama
 
-Bu GitHub deposu, **ProjectR** adlı bir R projesi içermektedir.  Projenin tam amacı veya işlevselliği hakkında daha fazla detay mevcut değildir.
+Bu repository, Spotify API'sini kullanarak çeşitli görevleri gerçekleştiren R scriptleri içerir. Temel fonksiyonlar şunlardır:
 
-## Lisans
+*   **Spotify Token Alma:** Spotify API'sine erişim için gerekli olan token'ı alır.
+*   **Sanatçı Arama:** Verilen bir sanatçı adına göre Spotify'da sanatçı arar.
+*   **Popüler Şarkıları Listeleme:** Bir sanatçı ID'si kullanarak sanatçının en popüler şarkılarını listeler.
 
-Bu proje, GNU General Public License v3 altında lisanslanmıştır. Daha fazla bilgi için [LICENSE](LICENSE) dosyasına bakınız.
+## Kurulum
+
+Projenin düzgün çalışması için aşağıdaki adımları izleyin:
+
+1.  R ve RStudio'nun kurulu olduğundan emin olun.
+
+2.  Gerekli paketleri yükleyin:
+
+    ```R
+    install.packages("httr")
+    install.packages("testthat")
+    ```
+
+3.  Spotify API'sini kullanmak için bir Spotify Developer hesabına sahip olmanız ve bir uygulama oluşturmanız gerekir.
+
+4.  `SPOTIFY_ID` ve `SPOTIFY_SECRET` adlı iki ortam değişkeni tanımlayın. Bu değişkenler, Spotify Developer hesabınızdan elde edeceğiniz Client ID ve Client Secret değerlerini içermelidir.
+
+    Ortam değişkenlerini ayarlamak için `.Renviron` dosyasını kullanabilirsiniz. Eğer böyle bir dosya yoksa, projenizin kök dizininde oluşturun ve aşağıdaki formatta bilgilerinizi ekleyin:
+
+    ```
+    SPOTIFY_ID="your_client_id"
+    SPOTIFY_SECRET="your_client_secret"
+    ```
+
+    `.Renviron` dosyasını kaydettikten sonra, `readRenviron()` fonksiyonunu kullanarak ortam değişkenlerini R oturumunuza yükleyin:
+
+    ```R
+    readRenviron(".Renviron")
+    ```
+
+    Alternatif olarak, oturumunuzun başında ortam değişkenlerini doğrudan ayarlayabilirsiniz:
+
+    ```R
+    Sys.setenv(SPOTIFY_ID = "your_client_id")
+    Sys.setenv(SPOTIFY_SECRET = "your_client_secret")
+    ```
+
+## Kullanım
+
+1.  Gerekli R script'ini (`Labex_Q1.R`, `Labex_Q2.R`, `Labex_Q3.R` veya `Labex_Q4.R`) RStudio'da açın.
+
+2.  Script'i çalıştırın. Örneğin, `Labex_Q4.R` script'ini çalıştırmak için:
+
+    ```R
+    source("coderlog/Labex_Q4.R")
+    ```
+
+3.  Fonksiyonları çağırın ve sonuçları inceleyin. Örneğin:
+
+    ```R
+    token <- spotify_token()
+    print(token)
+
+    artists <- spotify_search_artist("Eminem")
+    print(artists)
+
+    tracks <- spotify_artist_top_tracks("0TnOYISbd1XYRBk9myaseg")
+    print(tracks)
+    ```
+
+## Bağımlılıklar
+
+*   **httr:** HTTP istekleri yapmak için kullanılır.
+
+*   **testthat:** R'da testler yazmak ve çalıştırmak için kullanılır.
 
 ## Katkıda Bulunma
 
-Katkıda bulunmak için aşağıdaki adımları izleyin:
+1.  Bu repository'i fork edin.
+2.  Branch'inizi oluşturun (`git checkout -b feature/your-feature`).
+3.  Değişikliklerinizi commit edin (`git commit -m 'Add some feature'`).
+4.  Branch'inizi push edin (`git push origin feature/your-feature`).
+5.  Pull Request oluşturun.
 
-1.  Projeyi fork edin.
-2.  Yeni bir branch oluşturun (`git checkout -b feature/yeni-ozellik`).
-3.  Değişikliklerinizi yapın.
-4.  Değişikliklerinizi commit edin (`git commit -m "Yeni özellik eklendi"`).
-5.  Branch'inizi push edin (`git push origin feature/yeni-ozellik`).
-6.  Bir pull request oluşturun.
+## Lisans
 
-## .gitignore Dosyası Açıklaması
+Bu proje, [GNU General Public License v3.0](LICENSE) altında lisanslanmıştır.
 
-[.gitignore](.gitignore) dosyası, Git'in izlememesi gereken dosya ve klasörleri belirtir. Bu dosya, genellikle aşağıdaki türden dosyaları içerir:
+## Dosya Açıklamaları
 
-*   `.Rhistory`: R oturum geçmişi dosyaları.
-*   `.RData`: R çalışma alanı dosyaları.
-*   `.Rproj.user/`: RStudio proje kullanıcı ayarları.
-*   `*.tar.gz`: R CMD build çıktı dosyaları.
-*   `*.Rcheck/`: R CMD check çıktı dosyaları.
-*   `vignettes/*.html`, `vignettes/*.pdf`: Oluşturulmuş vinyetler.
-*   `docs/`: pkgdown site dosyaları.
-*   `rsconnect/`: RStudio Connect klasörü.
-*   `.Renviron`: R ortam değişkenleri dosyası.
-*   `po/*~`: Çeviri geçici dosyaları.
+*   `.gitignore`: Git tarafından izlenmemesi gereken dosyaları belirtir (örneğin, `.Rhistory`, `.RData`).
+*   `LICENSE`: Projenin lisans bilgilerini içerir (GNU General Public License v3.0).
+*   `coderlog/Labex_Q1.R`: Spotify API'sinden token almak için bir fonksiyon içerir.
+*   `coderlog/Labex_Q1_tests.R`: `Labex_Q1.R` script'i için testler içerir.
+*   `coderlog/Labex_Q2.R`: Spotify API'sinden token almak ve sanatçı adına göre arama yapmak için fonksiyonlar içerir.
+*   `coderlog/Labex_Q2_tests.R`: `Labex_Q2.R` script'i için testler içerir.
+*   `coderlog/Labex_Q3.R`: Spotify API'sinden token almak, sanatçı adına göre arama yapmak ve sanatçının popüler şarkılarını listelemek için fonksiyonlar içerir.
+*   `coderlog/Labex_Q3_tests.R`: `Labex_Q3.R` script'i için testler içerir.
+*   `coderlog/Labex_Q4.R`: Spotify API'sinden token almak, sanatçı adına göre arama yapmak ve sanatçının popüler şarkılarını listelemek için fonksiyonlar içerir. Hata kontrolleri eklenmiştir.
 
-```
-# History files
-.Rhistory
-.Rapp.history
+## API Referansı
 
-# Session Data files
-.RData
-.RDataTmp
-
-# User-specific files
-.Ruserdata
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
-.Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
-.Renviron
-
-# pkgdown site
-docs/
-
-# translation temp files
-po/*~
-
-# RStudio Connect folder
-rsconnect/
+| Endpoint                                  | Parametreler     | Açıklama                               | Tip     |
+| ----------------------------------------- | ---------------- | -------------------------------------- | ------- |
+| `POST https://accounts.spotify.com/api/token` | `grant_type`, `client_id`, `client_secret` | Spotify API'sinden token alır.         | POST    |
+| `GET https://api.spotify.com/v1/search`    | `q`, `type`, `limit`  | Sanatçı adına göre Spotify'da arama yapar. | GET     |
+| `GET https://api.spotify.com/v1/artists/{artist_id}/top-tracks` | `market`         | Sanatçı ID'sine göre popüler şarkıları listeler. | GET     |
